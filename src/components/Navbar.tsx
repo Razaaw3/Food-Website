@@ -38,10 +38,10 @@ const Navbar = () => {
   const session = true;
   const isAdmin = false;
   return (
-    <div className="h-[100px] max-w-[1500px] mx-auto bg-blue flex justify-between items-center ">
+    <div className="h-[100px] max-w-[1500px] m-auto pl-[50px] pr-[50px] bg-blue flex justify-between items-center ">
       <div className="flex items-center justify-center">
         {/* Logo */}
-        <Link href="/" className=" ml-4 text-xl font-bold text-green-500">
+        <Link href="/" className=" ml-4 text-xl font-bold text-textSoft">
           CleanPlate
         </Link>
       </div>
@@ -56,7 +56,7 @@ const Navbar = () => {
                 href={item.path}
                 key={item.path}
                 className={`min-w-100px px-5 py-1 rounded-full font-semibold text-center text-white ${
-                  pathName === item.path ? " text-[#56bf46]" : ""
+                  pathName === item.path ? "text-textSoft" : ""
                 }`}
               >
                 {item.title}
@@ -142,7 +142,7 @@ const Navbar = () => {
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
-              <span className="badge badge-sm indicator-item text-white bg-green-500">
+              <span className="badge badge-sm indicator-item text-white bg-textSoft">
                 8
               </span>
             </div>
