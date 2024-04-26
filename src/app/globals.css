@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+
+  
+  .notification-animation {
+    animation: marquee 12s linear infinite; /* Very short duration */
+  }
+  
+  @keyframes marquee {
+    0% {
+      transform: translateX(-100%);  /* Start from the right edge */
+    }
+    100% {
+      transform: translateX(100%);   /* Move to the left edge (off-screen) */
+    }
+  }
+  
+  
