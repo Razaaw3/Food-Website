@@ -40,5 +40,13 @@ a{
       transform: translateX(100%);   /* Move to the left edge (off-screen) */
     }
   }
+
+  .card-lg {
+    @apply w-32 rounded-full ring ring-white ring-offset-4;
+  }
+
+  .card-sm {
+    @apply w-24 rounded-full ring ring-white ring-offset-4;
+  }
   
   

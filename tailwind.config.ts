@@ -12,7 +12,8 @@ const config: Config = {
         bg: '#181E27',
         bgSoft: '#253651',
         text: "#179914",
-        textSoft: "#42B430"
+        textSoft: "#42B430",
+        lightGreen : '#E6F4E9'
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

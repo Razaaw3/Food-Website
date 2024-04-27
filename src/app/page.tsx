@@ -1,9 +1,13 @@
+import ChooseUs from "@/components/ChooseUs";
+import FoodPackages from "@/components/FoodPackages";
+import SeasonalOffers from "@/components/SeasonalOffers";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <div id="container" className="flex gap-24 min-h-screen">
-      <div className=" flex flex-1 flex-col gap-10">
+    <div>
+    <div id="container" className="flex  min-h-screen">
+      <div className=" flex flex-col gap-10">
         <p className="text-xl text-[#e1e1d9] mt-10">
           Welcome to CleanPlate delivery
         </p>
@@ -23,9 +27,16 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className="flex-1 relative ">
-        <Image src="/saladd.png" alt="" fill />
+      <div className="w-[800px] flex">
+        <img src="/saladd.png" alt=""  className="my-auto" />
       </div>
+    
+    </div>
+    <div className="bg-[#f4f4f4] flex flex-col gap-20 pt-24">
+    <SeasonalOffers/>
+    <ChooseUs/>
+    <FoodPackages/>
+    </div>
     </div>
   );
 }
