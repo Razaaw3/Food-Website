@@ -1,9 +1,12 @@
 import React from "react";
 import FoodCard from "./FoodCard";
+import { foodsType } from "@/types";
 
-type Props = {};
+type Props = {
+  foods : foodsType[]
+};
 
-export default function SeasonalOffers({}: Props) {
+export default function SeasonalOffers({foods}: Props) {
   return (
     <div>
       <div className="flex justify-between px-10 mb-20">
@@ -11,9 +14,12 @@ export default function SeasonalOffers({}: Props) {
         <p className='text-black font-bold text-xl'>SEE MORE </p>
       </div>
       <div className="flex justify-between px-20">
-      <FoodCard />
-      <FoodCard />
-      <FoodCard />
+
+        {
+          foods.map(item=><FoodCard key={item._id} item={item}/>)
+        }
+      
+
         </div>
     </div>
   );
