@@ -9,6 +9,24 @@ type Props = {
 };
 
 function FoodCard({ size,item }: Props) {
+
+  const handleAddToCart = () => {
+    const savedCartItems = localStorage.getItem("cartItems");
+    const existingCartItems: foodsType[] = savedCartItems ? JSON.parse(savedCartItems) : [];
+  
+    const isItemInCart = existingCartItems.some(cartItem => cartItem._id === item._id);
+  
+    if (isItemInCart) {
+      alert(`${item.name} is already in the cart!`);
+      return;
+    }
+    const updatedCartItems = [...existingCartItems, item];
+    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+    alert(`${item.name} has been added to the cart!`);
+  };
+  
+
+  
   return (
     <div className="p-8 bg-[#f5f4f4] w-60 flex flex-col gap-2 drop-shadow-2xl rounded-2xl relative">
       <div className="avatar absolute right-[-40px] top-[-40px]">
@@ -38,7 +56,7 @@ function FoodCard({ size,item }: Props) {
           >
             <FaRegHeart className="text-green-600 " />
           </button> */}
-          <button className=" w-full text-white px-3 py-2 drop-shadow-lg bg-green-600 rounded-full text-sm">
+          <button onClick={handleAddToCart} className=" w-full text-white px-3 py-2 drop-shadow-lg bg-green-600 rounded-full text-sm">
             Add to cart
           </button>
         </div>

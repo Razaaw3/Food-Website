@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import FoodCard from "@/components/FoodCard";
 import { foodsType } from "@/types";

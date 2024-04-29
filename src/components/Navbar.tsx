@@ -32,6 +32,7 @@ const links: linksType = [
 ];
 
 const Navbar = () => {
+  
   const pathName = usePathname();
 
   //temporary
@@ -128,6 +129,7 @@ const Navbar = () => {
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
             <div className="indicator">
+              <Link href={'/cart'}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 text-white"
@@ -145,6 +147,7 @@ const Navbar = () => {
               <span className="badge badge-sm indicator-item text-white bg-textSoft">
                 8
               </span>
+              </Link>
             </div>
           </div>
         </div>
