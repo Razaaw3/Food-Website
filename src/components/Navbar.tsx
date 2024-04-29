@@ -26,8 +26,8 @@ const links: linksType = [
     path: "/delivery",
   },
   {
-    title: "Contacts",
-    path: "/contact",
+    title: "Add Item",
+    path: "/add-item",
   },
 ];
 
@@ -56,7 +56,7 @@ const Navbar = () => {
                 href={item.path}
                 key={item.path}
                 className={`min-w-100px px-5 py-1 rounded-full font-semibold text-center text-white ${
-                  pathName === item.path ? "text-textSoft" : ""
+                  pathName === item.path ? "text-green-700" : ""
                 }`}
               >
                 {item.title}
