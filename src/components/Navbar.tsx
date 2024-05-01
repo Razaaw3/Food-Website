@@ -3,6 +3,9 @@
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { options } from "@/app/api/auth/[...nextauth]/Options";
 
 export type linksType = {
   title: string;
@@ -25,19 +28,15 @@ const links: linksType = [
     title: "Delivery",
     path: "/delivery",
   },
-  {
-    title: "Add Item",
-    path: "/add-item",
-  },
+  
 ];
 
 const Navbar = () => {
+  const { data: session } = useSession();
   
+  console.log("session : ",session)
   const pathName = usePathname();
 
-  //temporary
-  const session = true;
-  const isAdmin = false;
   return (
     <div className="h-[100px] max-w-[1500px] m-auto pl-[50px] pr-[50px] bg-blue flex justify-between items-center ">
       <div className="flex items-center justify-center">
@@ -64,19 +63,20 @@ const Navbar = () => {
               </Link>
             ))}
 
+        {session?.user?.email && (
+             
+              <Link
+                href="/add-item"
+                className="text-white px-5 py-1 cursor-pointer font-bold text-center "
+              >
+                Add Item
+              </Link>
+            )}
             {/* Admin Logic */}
 
-            {session ? (
+            {session?.user?.email ? (
               <>
-                {isAdmin && (
-                  <Link
-                    href="/admin"
-                    className="text-white px-5 py-1 cursor-pointer font-bold  text-center"
-                  >
-                    Admin
-                  </Link>
-                )}
-                <button className=" text-white px-5 py-1 cursor-pointer font-bold  text-center ">
+                <button onClick={async()=> await signOut()} className=" text-white px-5 py-1 cursor-pointer font-bold  text-center ">
                   Logout
                 </button>
               </>

@@ -6,5 +6,6 @@ export interface foodsType {
     description : string
     category : string;
     image : string,
-    _id : string
+    _id : string,
+    quantity : number
 }

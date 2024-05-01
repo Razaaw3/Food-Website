@@ -1,7 +1,60 @@
+'use client'
+import { signIn } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import {useRouter} from "next/navigation";
 
 const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({ email: '', password: '' });
+  const router = useRouter()
+
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = { email: '', password: '' };
+
+    if (!email.trim()) {
+      newErrors.email = 'Email is required';
+      valid = false;
+    }
+
+    if (!password.trim()) {
+      newErrors.password = 'Password is required';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
+  const handleSubmit = async(e : any) => {
+    e.preventDefault();
+    if (validateForm()) {
+      console.log('Form submitted');
+      try {
+        const res = await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+        });
+
+        console.log("SignIn response : ",res)
+
+        if(res){
+          if(res.error)
+            console.log(res.error)
+          else{
+            console.log("Else")
+            router.replace('/')
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  };
+
   return (
     <div className="w-full min-h-screen flex items-center justify-center bg-white">
       <div className="w-[70%] p-8 max-w-sm mx-auto overflow-hidden bg-white rounded-lg dark:bg-gray-800 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
@@ -14,14 +67,19 @@ const LoginPage = () => {
             Login or create account
           </p>
 
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="w-full mt-4">
               <input
                 className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
                 type="email"
                 placeholder="Email Address"
                 aria-label="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
+              {errors.email && (
+                <span className="text-red-500">{errors.email}</span>
+              )}
             </div>
 
             <div className="w-full mt-4">
@@ -30,7 +88,12 @@ const LoginPage = () => {
                 type="password"
                 placeholder="Password"
                 aria-label="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
+              {errors.password && (
+                <span className="text-red-500">{errors.password}</span>
+              )}
             </div>
 
             <div className="flex items-center justify-between mt-4">
@@ -41,7 +104,10 @@ const LoginPage = () => {
                 Forget Password?
               </a>
 
-              <button className="px-6 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-text rounded-lg hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-50">
+              <button
+                type="submit"
+                className="px-6 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-text rounded-lg hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-50"
+              >
                 Sign In
               </button>
             </div>

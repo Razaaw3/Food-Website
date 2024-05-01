@@ -6,7 +6,8 @@ export interface Users extends mongoose.Document {
   admin : boolean; 
   password : string
   address : string
-  token : String
+  token : String,
+  email : string
 }
 
 /* PetSchema will correspond to a collection in your MongoDB database. */
@@ -22,11 +23,14 @@ const UserSchema = new mongoose.Schema<Users>({
     default : false
   },
   
+  email:{
+    type : String,
+    required : true,
+  },
   password :{
     type : String,
     required : true,
   },
-  token : String,
 
   address :{
     type : String,
@@ -34,7 +38,9 @@ const UserSchema = new mongoose.Schema<Users>({
     minlength : [3, "Address should be atleast 3 characters long"]
   }
 
-});
+},
+{timestamps : true}
+);
 
 UserSchema.pre("save",async function(next){
     if(!this.isModified("password")) return next();
@@ -43,4 +49,4 @@ UserSchema.pre("save",async function(next){
     next();
   })
 
-export default mongoose.models.User || mongoose.model<Users>("user", UserSchema);
+export default mongoose.models.User || mongoose.model<Users>("User", UserSchema);

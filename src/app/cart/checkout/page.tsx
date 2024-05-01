@@ -2,6 +2,9 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import PaymentForm from "./PaymentForm";
+import { useStore } from "@/store";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 
 const stripePromise = loadStripe(
@@ -11,12 +14,37 @@ const stripePromise = loadStripe(
 type Props = {}
 
 const Checkout = (props: Props) => {
-    console.log(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+  const {state} = useStore();
+  const [clientSecret, setClientSecret] = useState('')
+  
+  const id_quantity = state.cartItems.map(item => ({ product: item._id, quantity: item.quantity }));
+
+  useEffect(() => {
+    (async()=>{
+      try {
+        const cs = await axios.post("/api", {
+          data: { amount: state.totalPrice.toFixed(2) },
+        });
+        setClientSecret(cs.data)
+        console.log(cs)
+      } catch (error) {
+        console.log(error)
+      }
+    })();
+  
+    
+  }, [])
+  
+  
+  
+    console.log(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,state) 
   return (
-    <div className="bg-white">
-    <Elements stripe={stripePromise}>
-      <PaymentForm />
+    <div className="bg-white flex flex-1 justify-center py-12">
+      {clientSecret && stripePromise && (
+    <Elements stripe={stripePromise} options={{clientSecret : clientSecret}}>
+      <PaymentForm data={id_quantity}/>
     </Elements>
+      )}
     </div>
   )
 }

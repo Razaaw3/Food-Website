@@ -20,6 +20,7 @@ function FoodCard({ size,item }: Props) {
       alert(`${item.name} is already in the cart!`);
       return;
     }
+    item.quantity = 1;
     const updatedCartItems = [...existingCartItems, item];
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
     alert(`${item.name} has been added to the cart!`);
