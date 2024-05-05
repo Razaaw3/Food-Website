@@ -32,7 +32,7 @@ function FoodCard({ size,item }: Props) {
     <div className="p-8 bg-[#f5f4f4] w-60 flex flex-col gap-2 drop-shadow-2xl rounded-2xl relative">
       <div className="avatar absolute right-[-40px] top-[-40px]">
         <div className={size==='sm'?"card-sm":"card-lg"}>
-          <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_640.png" />
         </div>
       </div>
       <h2 className="text-3xl font-medium">

@@ -23,7 +23,7 @@ const Checkout = (props: Props) => {
     (async()=>{
       try {
         const cs = await axios.post("/api", {
-          data: { amount: state.totalPrice.toFixed(2) },
+          data: { amount: Math.floor(state.totalPrice) },
         });
         setClientSecret(cs.data)
         console.log(cs)

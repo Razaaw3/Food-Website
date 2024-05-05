@@ -1,5 +1,6 @@
 
 import Order from "@/Models/Order";
+import Product from "@/Models/Product";
 import dbConnect from "@/lib/dbConnect";
 import { foodsType } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
@@ -7,18 +8,17 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: Request) {
   try {
     await dbConnect();
-    const data = await Order.find();
-
+    const data = await Order.find().populate('products.product',null,Product); // Populate the products field with the product details
     return NextResponse.json(
       {
         success: true,
-        message : data,
+        message: data,
       },
       { status: 200 }
     );
   } catch (error) {
     console.log("Error while fetching products : ", error);
-    return NextResponse.json({success : false , message : 'Irfan its not working'},{status:400})
+    return NextResponse.json({ success: false, message: 'Error occurred while fetching data' }, { status: 400 });
   }
 }
 
@@ -29,12 +29,16 @@ export async function POST(request: Request) {
       userId,
       products,
       totalPrice,
+      totalItems,
+      totalWeight
     } = await request.json();
 
     await Order.create({
       userId,
       products,
       totalPrice,
+      totalItems,
+      totalWeight
     });
     return NextResponse.json(
       {

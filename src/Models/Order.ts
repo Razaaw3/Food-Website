@@ -7,7 +7,9 @@ export interface Orders extends mongoose.Document {
     product : Schema.Types.ObjectId | Products,
     quantity : number
   }[],
-  userId :Schema.Types.ObjectId
+  userId :Schema.Types.ObjectId,
+  totalItems : number,
+  totalWeight : number
 }
 
 const OrderSchema = new mongoose.Schema<Orders>({
@@ -23,6 +25,14 @@ const OrderSchema = new mongoose.Schema<Orders>({
   }],
   
   totalPrice : {
+    type : Number,
+    required : true
+  },
+  totalItems : {
+    type : Number,
+    required : true
+  },
+  totalWeight : {
     type : Number,
     required : true
   }

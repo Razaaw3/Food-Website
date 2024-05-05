@@ -25,14 +25,15 @@ const links: linksType = [
     path: "/about-us",
   },
   {
-    title: "Delivery",
-    path: "/delivery",
+    title: "Orders",
+    path: "/order",
   },
   
 ];
 
 const Navbar = () => {
   const { data: session } = useSession();
+  console.log(process.env.NEXTAUTH_SECRET)
   
   console.log("session : ",session)
   const pathName = usePathname();
@@ -63,7 +64,7 @@ const Navbar = () => {
               </Link>
             ))}
 
-        {session?.user?.email && (
+        {session?.user && (
              
               <Link
                 href="/add-item"
@@ -74,7 +75,7 @@ const Navbar = () => {
             )}
             {/* Admin Logic */}
 
-            {session?.user?.email ? (
+            {session?.user ? (
               <>
                 <button onClick={async()=> await signOut()} className=" text-white px-5 py-1 cursor-pointer font-bold  text-center ">
                   Logout

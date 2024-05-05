@@ -7,6 +7,9 @@ import { foodsType } from './types';
 export type StateType = {
   cartItems: foodsType[];
   totalPrice : number
+  totalItems : number
+  totalWeight : number
+  orders : any[]
 };
 
 
@@ -21,7 +24,10 @@ export type Action = {
 
 const initialState:StateType = {
   cartItems: [],
-  totalPrice : 0
+  totalPrice : 0,
+  totalItems : 0,
+  totalWeight : 0,
+  orders : []
 };
 
 const StoreContext = createContext<{
@@ -38,8 +44,16 @@ const StoreReducer = (state: StateType, action: Action) => {
       return {
         ...state,
         cartItems:  action.payload.cartItems,
-        totalPrice : action.payload?.totalPrice || 0
+        totalPrice : action.payload?.totalPrice || 0,
+        totalItems : action.payload?.totalItems || 0,
+        totalWeight : action.payload?.totalWeight || 0
       };
+      
+    case 'order':
+      return {
+        ...state,
+        orders : action.payload
+      }
     default:
       return state;
   }

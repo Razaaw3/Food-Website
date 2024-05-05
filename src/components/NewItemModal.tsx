@@ -29,18 +29,28 @@ const NewItemModal = (props: Props) => {
               Name:
               <input type="text" className="grow" />
             </label>
-            <label className="input input-bordered flex items-center gap-2 text-gray-500 font-semibold">
-              Desc:
-              <input type="text" className="grow" />
-            </label>
-            <label className="input input-bordered flex items-center gap-2 text-gray-500 font-semibold">
-              Calories:
-              <input type="text" className="grow" />
-            </label>
+
             <label className="input input-bordered flex items-center gap-2 text-gray-500 font-semibold">
               Price:
               <input type="number" className="grow" />
             </label>
+
+            <label className="input input-bordered flex items-center gap-2 text-gray-500 font-semibold">
+              Weight:
+              <input type="number" className="grow" />
+            </label>
+
+            <label className="input input-bordered flex items-center gap-2 text-gray-500 font-semibold">
+              Calories:
+              <input type="number" className="grow" />
+            </label>
+
+            <label className="input input-bordered flex items-center gap-2 text-gray-500 font-semibold">
+              Desc:
+              <input type="text" className="grow" />
+            </label>
+
+            <input type="file" className="grow text-center" />
           </div>
           <div className="flex justify-center items-center mt-8">
             <button className="text-xl bg-textSoft rounded-[5px] px-36 py-2.5">

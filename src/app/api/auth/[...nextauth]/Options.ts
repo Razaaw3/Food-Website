@@ -1,20 +1,19 @@
+import type { NextAuthOptions } from "next-auth"
 import User from "@/Models/User"
 import dbConnect from "@/lib/dbConnect"
 import  CredentialsProvider  from "next-auth/providers/credentials"
 const bcrypt = require('bcrypt')
 
-export const options = {
+export const options:NextAuthOptions = {
     providers: [
       CredentialsProvider({
         name: "credentials",
         credentials: {},
   
         async authorize(credentials) {
-          const { email, password } = credentials;
+          const { email, password }  = credentials;
           
   
-          console.log("auth")
-          // if(email &&password)
             try {
               await dbConnect();
               const user = await User.findOne({ email });
@@ -28,8 +27,12 @@ export const options = {
                 return null;
               }
 
-              return user
-
+              
+              return {
+                id: user._id, // Include the userID
+                email: user.email,
+                admin: user.admin
+              };
             } catch (error) {
               console.log("Error: ", error);
               return null
@@ -44,7 +47,24 @@ export const options = {
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
-      signIn: "/login",
+      signIn : '/login',
+      
     },
+    callbacks:{
+      async jwt({token,user}){
+        if (user) {
+          token.id = user.id; // Include userID in token
+          token.admin = user.admin;
+        }
+          return token
+      },
+      async session({session,token}){
+          if (session.user) {
+            session.user.id = token.id; // Include userID in session
+            session.user.admin = token.admin;
+        }
+          return session
+      }
+    }
     
   };

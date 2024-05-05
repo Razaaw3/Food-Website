@@ -33,7 +33,9 @@ export default function PaymentForm({data}:props ) {
       await axiosRequest.post('/order',{
         userId : '6631f7b2497e53f8c56f35e1',
         totalPrice : state.totalPrice,
-        products : data
+        products : data,
+        totalWeight : state.totalWeight,
+        totalItems : state.totalItems
       })
 
       const { error } = await stripe.confirmPayment({
