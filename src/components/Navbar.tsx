@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { options } from "@/app/api/auth/[...nextauth]/Options";
+import { useStore } from "@/store";
 
 export type linksType = {
   title: string;
@@ -33,9 +34,7 @@ const links: linksType = [
 
 const Navbar = () => {
   const { data: session } = useSession();
-  console.log(process.env.NEXTAUTH_SECRET)
-  
-  console.log("session : ",session)
+  const {state} = useStore();
   const pathName = usePathname();
 
   return (
@@ -146,7 +145,7 @@ const Navbar = () => {
                 />
               </svg>
               <span className="badge badge-sm indicator-item text-white bg-textSoft">
-                8
+              {state.count}
               </span>
               </Link>
             </div>

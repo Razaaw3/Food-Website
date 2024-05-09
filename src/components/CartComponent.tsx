@@ -2,14 +2,14 @@
 import { useStore } from '@/store';
 import { foodsType } from '@/types';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Product from './Product';
 
-type Props = {}
+type Props = {};
 
 const CartComponent = (props: Props) => {
     const [cartItems, setCartItems] = useState<foodsType[]>([]);
-    const {state, dispatch} = useStore();
+    const { state, dispatch } = useStore();
     const router = useRouter();
 
     useEffect(() => {
@@ -35,6 +35,13 @@ const CartComponent = (props: Props) => {
       setCartItems(updatedItems);
     };
 
+    const removeItem = (itemId: string) => {
+      const updatedItems = cartItems.filter(item => item._id !== itemId);
+      localStorage.setItem("cartItems", JSON.stringify(updatedItems));
+      setCartItems(updatedItems);
+      dispatch({type:'count',payload:state.count-1})
+    };
+
     const Proceed = () =>{
       dispatch({type:'cart',payload:{cartItems,totalPrice:totalPrice+10,totalItems : cartItems.length, totalWeight:orderWeight}})
       router.push('/cart/checkout')
@@ -47,7 +54,7 @@ const CartComponent = (props: Props) => {
             <div className="flex justify-between mt-10">
                 <div className="w-[40%] flex flex-col gap-y-8">
                     {cartItems.map((item) => (
-                        <Product key={item._id} item={item} onUpdateQuantity={updateQuantity} />
+                        <Product key={item._id} item={item} onUpdateQuantity={updateQuantity} onRemove={removeItem} />
                     ))}
                 </div>
                 <div className="w-[50%]">
@@ -79,4 +86,4 @@ const CartComponent = (props: Props) => {
     )
 }
 
-export default CartComponent
+export default CartComponent;

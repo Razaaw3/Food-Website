@@ -6,9 +6,7 @@ import { options } from "../api/auth/[...nextauth]/Options";
 
 const Login = async() => {
   const session = await getServerSession(options as any);
-  console.log(session)
   if (session) redirect("/");
-  console.log("Irfan nahi chala")
   return <LoginPage />;
 };
 

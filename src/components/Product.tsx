@@ -1,15 +1,16 @@
 // Product.js
-import { foodsType } from '@/types'
-import React, { useState } from 'react'
-import { FaMinus } from 'react-icons/fa'
-import { IoIosAdd } from 'react-icons/io'
+import { foodsType } from '@/types';
+import React, { useState } from 'react';
+import { FaMinus, FaTimesCircle } from 'react-icons/fa';
+import { IoIosAdd } from 'react-icons/io';
 
 type Props = {
   item: foodsType;
   onUpdateQuantity: (itemId: string, newQuantity: number) => void;
-}
+  onRemove: (itemId: string) => void;
+};
 
-function Product({ item, onUpdateQuantity }: Props) {
+function Product({ item, onUpdateQuantity, onRemove }: Props) {
   const [quantity, setQuantity] = useState(item.quantity);
 
   // Calculate total weight for the item based on its quantity
@@ -27,15 +28,24 @@ function Product({ item, onUpdateQuantity }: Props) {
     setQuantity(newQuantity);
   };
 
+  const handleRemove = () => {
+    onRemove(item._id);
+  };
+
   return (
     <div className='w-full items-center rounded-2xl bg-white drop-shadow-xl flex relative px-6 py-2'>
       <div className="avatar absolute left-[-20px] drop-shadow-sm">
         <div className="card-sm">
-          <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt={item.name} />
+          <img src={item.image} alt={item.name} />
         </div>
       </div>
       <div className='w-[70%] flex flex-col ml-auto gap-y-2'>
-        <h4 className="font-extrabold text-sm text-black">{item.name}</h4>
+        <div className="flex justify-between items-center">
+          <h4 className="font-extrabold text-sm text-black">{item.name}</h4>
+          <button onClick={handleRemove} className="text-red-600">
+            <FaTimesCircle size={20} />
+          </button>
+        </div>
         <p className="text-xs">{totalWeight}g | {item.calories} kcal | {item.category}</p>
 
         <div className='flex items-center justify-between'>

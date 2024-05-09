@@ -31,7 +31,6 @@ const LoginPage = () => {
   const handleSubmit = async(e : any) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('Form submitted');
       try {
         const res = await signIn("credentials", {
           email,
@@ -39,13 +38,12 @@ const LoginPage = () => {
           redirect: false,
         });
 
-        console.log("SignIn response : ",res)
 
         if(res){
           if(res.error)
             console.log(res.error)
           else{
-            console.log("Else")
+            localStorage.setItem("cartItems", '');
             router.replace('/')
           }
         }

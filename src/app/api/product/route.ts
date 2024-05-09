@@ -97,3 +97,62 @@ export async function DELETE(request: Request) {
     console.log("Error while creating product : ", error);
   }
 }
+
+
+export async function PUT(request: Request) {
+  try {
+    await dbConnect();
+    const {
+      _id,
+      name,
+      price,
+      weight,
+      calories,
+      description,
+      category,
+      image,
+    }: Partial<foodsType> = await request.json();
+
+
+    const existingProduct = await Product.findById(_id);
+
+    if (!existingProduct) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Product not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    existingProduct.name = name ?? existingProduct.name;
+    existingProduct.price = price ?? existingProduct.price;
+    existingProduct.weight = weight ?? existingProduct.weight;
+    existingProduct.calories = calories ?? existingProduct.calories;
+    existingProduct.description = description ?? existingProduct.description;
+    existingProduct.category = category ?? existingProduct.category;
+    existingProduct.image = image ?? existingProduct.image;
+
+    await existingProduct.save();
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Product updated successfully",
+        updatedProduct: existingProduct,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log("Error while updating product: ", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: error,
+      },
+      { status: 500 }
+    );
+  }
+}

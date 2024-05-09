@@ -1,22 +1,58 @@
-import Image from "next/image";
-import React from "react";
+'use client'
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useStore } from "@/store";
+import { axiosRequest } from "@/lib/config";
 
-const SingleItemPage = () => {
+interface FormData {
+  name: string;
+  price: number;
+  weight: number;
+  calories: number;
+  desc: string;
+  _id: string;
+}
+
+const SingleItemPage: React.FC = () => {
+  const router = useRouter();
+  const { state } = useStore();
+  const [formData, setFormData] = useState<FormData>({
+    name: state.products.name,
+    price: state.products.price,
+    weight: state.products.weight,
+    calories: state.products.calories,
+    desc: state.products.desc,
+    _id: state.products.id,
+  });
+
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await axiosRequest.put(`/product`, formData);
+      router.push("/add-item");
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className="flex gap-[50px] mt-5 w-[93%] text-white mx-20">
       <div className=" w-[28%]  bg-[#2b3e5d] p-5 rounded-[10px] font-bold text-white">
-        <div className="w-[300px] h-[300px] relative rounded-[10px] overflow-hidden mb-5">
-          <Image src="/avocado-salad.webp" alt="" fill />
-        </div>
-        <h1 className="flex justify-center items-center p-4">Avocado Salad</h1>
+        {/* Your image display */}
+        <h1 className="flex justify-center items-center p-4">{formData.name}</h1>
       </div>
       <div className="w-[65%] bg-[#2b3e5d] p-5 rounded-[10px] ">
-        <form action=" " className="flex flex-col gap-1">
+        <form onSubmit={handleUpdate} className="flex flex-col gap-1">
           <label className="ml-3 text-[12px] ">Name</label>
           <input
             type="text"
             name="name"
-            placeholder="Avocado Salad"
+            value={formData.name}
+            onChange={handleChange}
             className="p-2 rounded-[5px] bg-bgSoft text-white mx-[10px] my-0 border-2 border-[#2e374a]"
           />
 
@@ -24,7 +60,8 @@ const SingleItemPage = () => {
           <input
             type="number"
             name="price"
-            placeholder="$5.90"
+            value={formData.price}
+            onChange={handleChange}
             className="p-2 rounded-[5px] bg-bgSoft text-white mx-[10px] my-0 border-2 border-[#2e374a] "
           />
 
@@ -32,15 +69,17 @@ const SingleItemPage = () => {
           <input
             type="number"
             name="weight"
-            placeholder="400g"
+            value={formData.weight}
+            onChange={handleChange}
             className="p-2 rounded-[5px] bg-bgSoft text-white mx-[10px] my-0 border-2 border-[#2e374a] "
           />
 
           <label className="ml-3 text-[12px] ">Calories</label>
           <input
             type="number"
-            name="kcal"
-            placeholder="150 Kcal"
+            name="calories"
+            value={formData.calories}
+            onChange={handleChange}
             className="p-2 rounded-[5px] bg-bgSoft text-white mx-[10px] my-0 border-2 border-[#2e374a]"
           />
 
@@ -48,22 +87,24 @@ const SingleItemPage = () => {
           <input
             type="text"
             name="desc"
-            placeholder="Creamy avocado Salad..."
+            value={formData.desc}
+            onChange={handleChange}
             className="p-2 rounded-[5px] bg-bgSoft text-white mx-[10px] my-0 border-2 border-[#2e374a]"
           />
 
-          <label className="ml-3 text-[12px] ">Image</label>
-          <input type="file" name="img" className="p-2 ml-2" />
-
           <div className="flex gap-5 justify-center items-center">
-            <button className="w-[25%] p-5 bg-teal-500 text-white border-none rounded-[5px] cursor-pointer mt-5">
+            <button
+              type="submit"
+              className="w-[25%] p-5 bg-teal-500 text-white border-none rounded-[5px] cursor-pointer mt-5"
+            >
               Update
             </button>
-            {/* <Link href="/add-item"> */}
-            <button className="w-[25%] p-5 bg-red-500 text-white border-none rounded-[5px] cursor-pointer mt-5">
+            <button
+              className="w-[25%] p-5 bg-red-500 text-white border-none rounded-[5px] cursor-pointer mt-5"
+              onClick={() => router.push("/")}
+            >
               Back
             </button>
-            {/* </Link> */}
           </div>
         </form>
       </div>

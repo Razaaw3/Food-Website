@@ -3,19 +3,23 @@ import ChooseUs from "@/components/ChooseUs";
 import FoodPackages from "@/components/FoodPackages";
 import SeasonalOffers from "@/components/SeasonalOffers";
 import { axiosRequest } from "@/lib/config";
+import { useStore } from "@/store";
 import { foodsType } from "@/types";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
 export default function HomePage() {
     const [foods, setFoods] = useState<foodsType[]>([])
+    const {state,dispatch} = useStore();
 
     useEffect(() => {
       (async function (){
         try {
+          const savedCartItems = localStorage.getItem("cartItems");
+          const existingCartItems: foodsType[] = savedCartItems ? JSON.parse(savedCartItems) : [];
+          dispatch({type:'count',payload:existingCartItems.length})
           const {data} = await axiosRequest.get('/product') 
           setFoods(data.message)
-          // console.log()
         } catch (error) {
           console.log(error)
         }

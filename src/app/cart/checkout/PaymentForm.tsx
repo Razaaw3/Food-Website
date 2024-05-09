@@ -5,6 +5,7 @@ import { useStore } from "@/store";
 import { foodsType } from "@/types";
 import { CardElement, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 
 type props = {
@@ -12,6 +13,7 @@ type props = {
 }
 
 export default function PaymentForm({data}:props ) {
+  const { data: session } = useSession();
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +33,7 @@ export default function PaymentForm({data}:props ) {
       // });
       // const clientSecret = data;
       await axiosRequest.post('/order',{
-        userId : '6631f7b2497e53f8c56f35e1',
+        userId : session?.user.id,
         totalPrice : state.totalPrice,
         products : data,
         totalWeight : state.totalWeight,

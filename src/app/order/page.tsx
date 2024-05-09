@@ -11,9 +11,8 @@ const OrderPage = async() => {
   if(!session)
     redirect('/login')
 
-  const {data} = await axiosRequest.get('/order')
+  const {data} = await axiosRequest.get(`/order/${session.user.id}`)
 
-  console.log("data.message : ",data.message)
 
   return (
     <div className="container mx-auto p-8">

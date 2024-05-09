@@ -11,9 +11,10 @@ import { CiEdit } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Link from "next/link";
 import { useStore } from "@/store";
+import { axiosRequest } from "@/lib/config";
 
 interface props {
-  action : string,
+  action? : string,
   data : any
 }
 
@@ -94,17 +95,26 @@ const {dispatch} = useStore()
 else
 
 {
-  const userRows: object[] = [
-    {
-      id: 1,
-      name: "Vegetable Salad",
-      desc: "A pure veg health salad",
-      calories: 150,
-      price: 5.99,
-      weight: "400g",
-    },
-  ];
+  let userRows = data.map((product: any) => ({
+    id: product._id,
+    name: product.name,
+    desc: product.description,
+    calories: product.calories,
+    price: product.price,
+    weight: product.weight,
+    image : product.image
+  }));
 
+  const handleDelete=async(id:string)=>{
+    try {
+      await axiosRequest.delete(`/product/${id}`)
+      window.location.reload()
+
+    } catch (error) {
+      console.log("Delete product : ",error)
+    }
+  }
+  
   const userColumns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 50 },
     {
@@ -112,12 +122,15 @@ else
       headerName: "Pic",
       width: 100,
       renderCell: (params) => {
+        console.log("Pic params : ",params)
         return (
-          <Image
-            src=""
-            alt=""
-            className="w-[32px] h-[32px] rounded-[50%] object-cover"
+          <div className="flex justify-center items-center mt-2">
+          <img
+            src={params.row.image}
+            alt="product image"
+            className="w-[32px] h-[32px] object-contain"
           />
+        </div>
         );
       },
     },
@@ -127,29 +140,29 @@ else
     { field: "calories", headerName: "Calories", width: 150, type: "number" },
     { field: "desc", headerName: "Description", width: 400 },
   ];
-
+  
   const actionColumn: GridColDef[] = [
     {
       field: "action",
       headerName: "Action",
       width: 200,
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <div className="flex gap-4">
-            <Link href="/add-item/hello">
+            <Link onClick={()=>dispatch({type:'product',payload:params.row})} href={`/add-item/${params.id as string}`}>
               <div className="mt-2.5 text-2xl text-green-700 cursor-pointer font-bold">
                 <CiEdit />
               </div>
             </Link>
             <div className="mt-2.5 text-2xl text-red-500 cursor-pointer">
-              <RiDeleteBin6Line />
+              <RiDeleteBin6Line onClick={()=>handleDelete(params.id as string)}  />
             </div>
           </div>
         );
       },
     },
   ];
-
+  
   return (
     <>
       <div className="h-[50%] w-[100%] mt-[15px]">

@@ -1,9 +1,18 @@
 'use client'
+import { useStore } from '@/store';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const ThankYouPage: React.FC = () => {
+  const {dispatch} = useStore();
+  useEffect(() => {
     localStorage.setItem("cartItems", '');
+    dispatch({type:'count',payload:0})
+  
+    
+  }, [])
+  
+    
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-4xl font-bold mb-4">Thank You for Shopping!</h1>

@@ -1,4 +1,5 @@
 import { Products } from "@/Models/Product";
+import { useStore } from "@/store";
 import { foodsType } from "@/types";
 import React from "react";
 import { FaRegHeart } from "react-icons/fa";
@@ -9,6 +10,8 @@ type Props = {
 };
 
 function FoodCard({ size,item }: Props) {
+
+  const {state,dispatch} = useStore();
 
   const handleAddToCart = () => {
     const savedCartItems = localStorage.getItem("cartItems");
@@ -23,6 +26,7 @@ function FoodCard({ size,item }: Props) {
     item.quantity = 1;
     const updatedCartItems = [...existingCartItems, item];
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+    dispatch({type:'count',payload:state.count+1})
     alert(`${item.name} has been added to the cart!`);
   };
   
@@ -32,7 +36,7 @@ function FoodCard({ size,item }: Props) {
     <div className="p-8 bg-[#f5f4f4] w-60 flex flex-col gap-2 drop-shadow-2xl rounded-2xl relative">
       <div className="avatar absolute right-[-40px] top-[-40px]">
         <div className={size==='sm'?"card-sm":"card-lg"}>
-          <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_640.png" />
+          <img src={item.image} />
         </div>
       </div>
       <h2 className="text-3xl font-medium">

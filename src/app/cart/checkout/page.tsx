@@ -26,7 +26,6 @@ const Checkout = (props: Props) => {
           data: { amount: Math.floor(state.totalPrice) },
         });
         setClientSecret(cs.data)
-        console.log(cs)
       } catch (error) {
         console.log(error)
       }
@@ -37,7 +36,6 @@ const Checkout = (props: Props) => {
   
   
   
-    console.log(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,state) 
   return (
     <div className="bg-white flex flex-1 justify-center py-12">
       {clientSecret && stripePromise && (

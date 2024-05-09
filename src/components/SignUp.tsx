@@ -41,7 +41,6 @@ const SignUp: React.FC = () => {
     }
     try {
       await axiosRequest.post('/user',formData)
-    console.log("Form submitted:", formData);
     setFormData({
       name: "",
       email: "",
