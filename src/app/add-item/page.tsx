@@ -7,14 +7,14 @@ import { axiosRequest } from "@/lib/config";
 
 const AddNewItem = () => {
   const [open, setOpen] = useState(false);
-  const [products, setProducts] = useState([])
-  useEffect(()=>{
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
     console.log("Use effect is called");
-    (async()=>{
-      const {data} = await axiosRequest.get('/product')
-      setProducts(data.message)
+    (async () => {
+      const { data } = await axiosRequest.get("/product");
+      setProducts(data.message);
     })();
-  },[open])
+  }, [open]);
   return (
     <div className="bg-[#2b3e5d] p-5 rounded-[10px] mt-2.5 mx-20 mb-4 ">
       <div className="flex items-center justify-end ">
