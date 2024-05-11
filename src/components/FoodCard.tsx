@@ -42,7 +42,7 @@ function FoodCard({ size, item }: Props) {
         </div>
       </div>
       <h2 className="text-3xl font-medium">
-        $9.<span className="font-normal text-lg ">40</span>{" "}
+        ${item.price}
       </h2>
 
       <h4 className="font-medium text-lg w-32">{item.name}</h4>
