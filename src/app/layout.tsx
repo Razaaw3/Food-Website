@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MyStoreProvider from "@/store";
 import AuthProvider from "./Providers";
+import CrispProvider from "@/components/Crisp-Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,16 +23,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <CrispProvider />
       <body className={inter.className}>
-      <AuthProvider>
-      <MyStoreProvider>
-        <div className="bg-gradient-to-r from-[#253651] to-[#181E27]">
-          <Notification />
-          <Navbar />
-          {children}
-          <Footer />
-        </div>
-        </MyStoreProvider>
+        <AuthProvider>
+          <MyStoreProvider>
+            <div className="bg-gradient-to-r from-[#253651] to-[#181E27]">
+              <Notification />
+              <Navbar />
+              {children}
+              <Footer />
+            </div>
+          </MyStoreProvider>
         </AuthProvider>
       </body>
     </html>
