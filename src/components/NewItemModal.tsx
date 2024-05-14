@@ -1,8 +1,8 @@
-"use client";
-
 import { axiosRequest } from "@/lib/config";
-import { CldImage, CldUploadButton } from "next-cloudinary";
+import { CldUploadButton } from "next-cloudinary";
 import React, { useState } from "react";
+import { toast, ToastContainer } from 'react-toastify';
+
 
 type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +20,7 @@ const NewItemModal = (props: Props) => {
     e.preventDefault();
     // Validation
     if (!name || !price || !weight || !calories || !desc || !image) {
-      alert("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
       return;
     }
 
@@ -30,21 +30,22 @@ const NewItemModal = (props: Props) => {
         price,
         weight,
         calories,
-        description:desc,
-        category:'salad',
+        description: desc,
+        category: 'salad',
         image,
-      })
-      props.setOpen(false)
+      });
+      toast.success("Item added successfully!");
+      setTimeout(() => {
+        props.setOpen(false);
+      }, 2000);
+      
     } catch (error) {
-      console.log(error)
+      console.error(error);
+      toast.error("Failed to add item. Please try again later.");
     }
-    
-    
   };
 
   const handleImageUpload = (res: any) => {
-    console.log(res);
-    // Set the uploaded image URL or public ID to the state
     setImage(res.info.secure_url || res.info.public_id);
   };
 
@@ -116,11 +117,9 @@ const NewItemModal = (props: Props) => {
               uploadPreset="food-website"
               className="bg-red-600 text-white p-2 rounded-md w-[50%] mx-auto"
               onSuccess={handleImageUpload}
-            />
-
-            {/* // <CldImage width="600" height="600" src="<Public ID or Cloudinary URL>" alt="<Alt Text>"  >
-            //   <input type="file" className="grow text-center" />
-            // </CldImage> */}
+            >
+              {image?'Uploaded':'Upload'}
+            </CldUploadButton>
           </div>
           <div className="flex justify-center items-center mt-8">
             <button className="text-xl bg-textSoft rounded-[5px] px-36 py-2.5">
@@ -129,6 +128,7 @@ const NewItemModal = (props: Props) => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { axiosRequest } from "@/lib/config";
 import { redirect } from "next/navigation";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
 
 interface FormData {
   name: string;
@@ -28,35 +29,46 @@ const SignUp: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Basic validation
     if (!formData.name || !formData.email || !formData.password || !formData.address) {
-      alert("Please fill in all fields");
+      toast.error("Please fill in all fields");
       return;
     }
-    if (formData.password.length<8) {
-      alert("Password must be 8 characters long");
+    if (formData.password.length < 8) {
+      toast.error("Password must be 8 characters long");
       return;
     }
+
     try {
-      await axiosRequest.post('/user',formData)
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      address: "",
-    });
-    router.push('/login')
-      
-    } catch (error) {
-      console.log(error)
+      const {data} = await axiosRequest.post('/user', formData);
+      console.log(data)
+      if(!data.success){
+        toast.error(data.message)
+        return;
+      }
+      toast.success("Sign up successful!");
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        address: "",
+      });
+      setTimeout(() => {
+        
+        router.push('/login');
+      }, 2000);
+    } catch (error ) {
+      console.log(error);
+      toast.error(error?.response?.data?.message);
     }
-    
   };
+
 
   return (
     <div>
+      <ToastContainer />
       <section className="bg-white dark:bg-gray-900">
         <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
           <form className="w-full max-w-md shadow-[0_3px_10px_rgb(0,0,0,0.2)]" onSubmit={handleSubmit}>
@@ -194,6 +206,7 @@ const SignUp: React.FC = () => {
           </form>
         </div>
       </section>
+      
     </div>
   );
 };

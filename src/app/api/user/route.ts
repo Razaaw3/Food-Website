@@ -23,25 +23,51 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     await dbConnect();
+    
     const userData = await request.json();
 
+    // Validate user data
+    if (!userData.name || !userData.email || !userData.password) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Name, email, and password are required.',
+        },
+        { status: 400 }
+      );
+    }
+
+    // Check if user with the same email already exists
+    const existingUser = await User.findOne({ email: userData.email });
+    console.log(existingUser)
+    if (existingUser) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'User with this email already exists.',
+        },
+        { status: 400 }
+      );
+    }
+
+    // Create new user
     const newUser = await User.create(userData);
 
     return NextResponse.json(
       {
         success: true,
-        message: "User created successfully",
+        message: 'User created successfully',
         data: newUser,
       },
       { status: 201 }
     );
   } catch (error) {
-    console.log("Error while creating user : ", error);
+    console.error('Error while creating user:', error);
 
     return NextResponse.json(
       {
         success: false,
-        message: 'Error creating user',
+        message: 'Internal server error',
       },
       { status: 500 }
     );

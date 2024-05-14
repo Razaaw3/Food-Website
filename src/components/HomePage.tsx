@@ -69,13 +69,13 @@ export default function HomePage() {
           )}
 
           <ChooseUs />
-          {!loading ? (
+          {/* {!loading ? (
             <FoodPackages foods={foods} />
           ) : (
             <div className="flex items-center justify-center">
               <Loader />
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import MyStoreProvider from "@/store";
 import AuthProvider from "./Providers";
 import CrispProvider from "@/components/Crisp-Provider";
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ["latin"] });
 

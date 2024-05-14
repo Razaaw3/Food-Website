@@ -3,6 +3,7 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 import {useRouter} from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -28,7 +29,7 @@ const LoginPage = () => {
     return valid;
   };
 
-  const handleSubmit = async(e : any) => {
+  const handleSubmit = async (e : any) => {
     e.preventDefault();
     if (validateForm()) {
       try {
@@ -38,23 +39,28 @@ const LoginPage = () => {
           redirect: false,
         });
 
-
-        if(res){
-          if(res.error)
-            console.log(res.error)
-          else{
+        if (res) {
+          if (res.error) {
+            toast.error('Incorrect username or password!');
+          } else {
+            toast.success('Login successful!')
             localStorage.setItem("cartItems", '');
-            router.replace('/')
+            setTimeout(() => {
+              
+              router.replace('/');
+            }, 2000);
           }
         }
       } catch (error) {
-        console.log(error)
+        console.error(error);
+        toast.error("Failed to sign in. Please try again later.");
       }
     }
   };
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center bg-white">
+      <ToastContainer/>
       <div className="w-[70%] p-8 max-w-sm mx-auto overflow-hidden bg-white rounded-lg dark:bg-gray-800 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
         <div className="px-6 py-4">
           <h3 className="mt-3  mb-8 text-2xl font-medium text-center text-text dark:text-gray-200">

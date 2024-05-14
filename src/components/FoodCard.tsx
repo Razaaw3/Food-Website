@@ -35,7 +35,7 @@ function FoodCard({ size, item }: Props) {
   };
 
   return (
-    <div className="p-8 bg-[#f5f4f4] w-60 flex flex-col gap-2 drop-shadow-2xl rounded-2xl relative">
+    <div className="p-8 bg-[#f5f4f4] w-64 flex flex-col gap-2 drop-shadow-2xl rounded-2xl relative">
       <div className="avatar absolute right-[-40px] top-[-40px]">
         <div className={size === "sm" ? "card-sm" : "card-lg"}>
           <img src={item.image} />

@@ -11,11 +11,13 @@ interface FormData {
   calories: number;
   desc: string;
   _id: string;
+  image : string
 }
 
 const SingleItemPage: React.FC = () => {
   const router = useRouter();
   const { state } = useStore();
+  console.log(state.products)
   const [formData, setFormData] = useState<FormData>({
     name: state.products.name,
     price: state.products.price,
@@ -23,6 +25,7 @@ const SingleItemPage: React.FC = () => {
     calories: state.products.calories,
     desc: state.products.desc,
     _id: state.products.id,
+    image : state.products.image
   });
 
   const handleUpdate = async (e: React.FormEvent) => {
@@ -42,8 +45,8 @@ const SingleItemPage: React.FC = () => {
   return (
     <div className="flex gap-[50px] mt-5 w-[93%] text-white mx-20">
       <div className=" w-[28%]  bg-[#2b3e5d] p-5 rounded-[10px] font-bold text-white">
-        {/* Your image display */}
         <h1 className="flex justify-center items-center p-4">{formData.name}</h1>
+        <img src={formData.image} alt="" className="mt-2" />
       </div>
       <div className="w-[65%] bg-[#2b3e5d] p-5 rounded-[10px] ">
         <form onSubmit={handleUpdate} className="flex flex-col gap-1">
