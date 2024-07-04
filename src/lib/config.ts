@@ -3,7 +3,7 @@ import axios from "axios"
 
 
 
-export const baseURl = 'http://localhost:3000/api'
+export const baseURl = 'https://clean-plate.vercel.app/api'
 
 
 export const axiosRequest = axios.create({

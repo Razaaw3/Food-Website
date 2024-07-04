@@ -8,6 +8,8 @@ import { foodsType } from "@/types";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Loader from "./Loader";
+import Link from "next/link";
+import TypewriterComponent from "typewriter-effect";
 
 export default function HomePage() {
   const [foods, setFoods] = useState<foodsType[]>([]);
@@ -39,20 +41,32 @@ export default function HomePage() {
               Welcome to CleanPlate delivery
             </p>
             <h1 className="text-5xl font-bold text-white">
-              The Faster Healthy Food Delivery In{" "}
-              <span className="text-textSoft">Your City</span>
+              The Faster Healthy Food Delivery At
+              <span className=" text-textSoft bg-clip-text ">
+                <TypewriterComponent
+                  options={{
+                    strings: ["Your City.", "Your Town.", "Your Doorstep."],
+                    autoStart: true,
+                    loop: true,
+                  }}
+                />
+              </span>
             </h1>
+
             <p className="text-md text-justify max-w-[450px] text-white">
               Discover a world of culinary delights where taste meets nutrition.
               Indulge in our handcrafted dishes, meticulously prepared to
-              tantalize your senses. CleanPlate delivery promises an unforgettable gastronomic
-              journey. Join us and savor the essence of fine dining, redefined
-              for your convenience.
+              tantalize your senses. CleanPlate delivery promises an
+              unforgettable gastronomic journey. Join us and savor the essence
+              of fine dining, redefined for your convenience.
             </p>
             <div className="flex items-center gap-5">
-              <button className="p-3 min-w-[120px] cursor-pointer border-none rounded-2xl bg-gradient-to-r from-textSoft to-text text-white flex justify-center items-center animate-bounce  ">
+              <Link
+                href={"/food"}
+                className="p-3 min-w-[120px] cursor-pointer border-none rounded-2xl bg-gradient-to-r from-textSoft to-text text-white flex justify-center items-center animate-bounce  "
+              >
                 Order Now
-              </button>
+              </Link>
             </div>
           </div>
           <div className="w-[800px] flex">
